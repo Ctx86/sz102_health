@@ -3,10 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <plugins>
+        <!--配置PageHelper的拦截器-->
         <!-- com.github.pagehelper 为 PageHelper 类所在包名 -->
         <plugin interceptor="com.github.pagehelper.PageHelper">
             <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL 六种数据库-->
             <property name="dialect" value="mysql"/>
+            <!--查询-1为第一页，查询超过总页数时，会查询最后一页-->
+            <property name="reasonable" value="true"/>
         </plugin>
     </plugins>
 </configuration>
