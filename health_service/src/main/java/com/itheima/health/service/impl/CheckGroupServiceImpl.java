@@ -3,7 +3,6 @@ package com.itheima.health.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.dao.CheckGroupDao;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
@@ -13,6 +12,7 @@ import com.itheima.health.service.CheckGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 import java.util.*;
 
 /**
@@ -32,7 +32,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
 
         Integer checkGroupId = checkGroup.getId();
 
-        if(null!=checkItemIds){
+        if (null != checkItemIds) {
             for (Integer checkItemId : checkItemIds) {
                 checkGroupDao.addCheckGroupCheckItem(checkGroupId, checkItemId);
             }
@@ -42,12 +42,12 @@ public class CheckGroupServiceImpl implements CheckGroupService {
 
     @Override
     public PageResult<CheckGroup> findPage(QueryPageBean queryPageBean) {
-        PageHelper.startPage(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
-        if(!StringUtils.isEmpty(queryPageBean.getQueryString())){
-            queryPageBean.setQueryString("%"+queryPageBean.getQueryString()+"%");
+        PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
+        if (!StringUtils.isEmpty(queryPageBean.getQueryString())) {
+            queryPageBean.setQueryString("%" + queryPageBean.getQueryString() + "%");
         }
         Page<CheckGroup> page = checkGroupDao.findPage(queryPageBean.getQueryString());
-        return new PageResult<CheckGroup>(page.getTotal(),page.getResult());
+        return new PageResult<CheckGroup>(page.getTotal(), page.getResult());
 
     }
 
@@ -59,6 +59,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
 
     /**
      * 通过id获取检查组
+     *
      * @param checkGroupId
      * @return
      */
@@ -69,6 +70,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
 
     /**
      * 修改检查组
+     *
      * @param checkGroup
      * @param checkitemIds
      */
@@ -80,7 +82,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         // 删除旧关系
         checkGroupDao.deleteCheckGroupCheckItem(checkGroup.getId());
         // 建立新关系
-        if(null != checkitemIds){
+        if (null != checkitemIds) {
             for (Integer checkitemId : checkitemIds) {
                 checkGroupDao.addCheckGroupCheckItem(checkGroup.getId(), checkitemId);
             }
@@ -92,7 +94,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
     public void deleteById(int id) throws MyException {
         // 检查 这个检查组是否被套餐使用了
         int count = checkGroupDao.findSetmealCountByCheckGroupId(id);
-        if(count > 0){
+        if (count > 0) {
             // 被使用了
             throw new MyException("被使用了");
         }
@@ -101,5 +103,11 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         checkGroupDao.deleteCheckGroupCheckItem(id);
         // 删除检查组
         checkGroupDao.deleteById(id);
+    }
+
+    @Override
+    public List<CheckGroup> findAll() {
+        List<CheckGroup> list = checkGroupDao.findAll();
+        return list;
     }
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date: 2020/10/24 14:52
  */
 @RestController
-@RequestMapping("/checkgroup")
+@RequestMapping("checkgroup")
 public class CheckgroupController {
 
     @Reference
@@ -64,4 +64,11 @@ public class CheckgroupController {
         checkGroupService.deleteById(id);
         return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
     }
+
+    @GetMapping("findAll")
+    public Result findAll(){
+        List<CheckGroup> checkGroups = checkGroupService.findAll();
+        return new Result(true,MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkGroups);
+    }
+
 }

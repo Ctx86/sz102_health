@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--静态资源过滤-->
+    <security:http security="none" pattern="/js/**"/>
+    <security:http security="none" pattern="/css/**"/>
+    <security:http security="none" pattern="/login.html"/>
+
+    <!--拦截配置管理-->
+    <security:http auto-config="true" use-expressions="false">
+        <security:intercept-url pattern="/**" access="ROLE_ADMIN"/>
+        <!--登陆配置-->
+        <security:form-login
+                login-page="/login.html"
+                username-parameter="abc"
+                password-parameter="bbb"
+                login-processing-url="/login"
+                default-target-url="/index.html"
+                always-use-default-target="true"
+                authentication-failure-url="/fail.html"
+        ></security:form-login>
+        <!--关闭放跨域攻击限制-->
+        <security:csrf disabled="true"/>
+    </security:http>
+
+    <!--认证管理器-->
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="admin" authorities="ROLE_ADMIN" password="{noop}admin"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+
+
+
+
+</beans>

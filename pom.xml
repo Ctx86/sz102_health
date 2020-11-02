@@ -14,20 +14,22 @@
         <module>health_interface</module>
         <module>health_service</module>
         <module>health_web</module>
+        <module>health_job</module>
+        <module>springsecurity_demo</module>
     </modules>
     <packaging>pom</packaging>
-
     <!-- 集中定义依赖版本号 -->
     <properties>
         <junit.version>4.12</junit.version>
         <spring.version>5.0.5.RELEASE</spring.version>
         <pagehelper.version>4.1.4</pagehelper.version>
         <servlet-api.version>2.5</servlet-api.version>
-
+        <!--<dubbo.version>2.6.2</dubbo.version>
+        <zookeeper.version>3.4.7</zookeeper.version>
+        <curator.verion>4.0.1</curator.verion>-->
         <dubbo.version>2.6.0</dubbo.version>
         <zookeeper.version>3.4.7</zookeeper.version>
         <zkclient.version>0.1</zkclient.version>
-
         <mybatis.version>3.4.5</mybatis.version>
         <mybatis.spring.version>1.3.1</mybatis.spring.version>
         <mybatis.paginator.version>1.2.15</mybatis.paginator.version>
@@ -38,10 +40,16 @@
         <poi.version>3.14</poi.version>
         <jedis.version>2.9.0</jedis.version>
         <quartz.version>2.2.1</quartz.version>
+        <freemarker.version>2.3.23</freemarker.version>
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${freemarker.version}</version>
+            </dependency>
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -200,8 +208,40 @@
                 <artifactId>spring-security-taglibs</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
+            <!--阿里云服务器短信平台-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>3.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <!--导入Itext报表-->
+            <dependency>
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext</artifactId>
+                <version>2.1.7</version>
+            </dependency>
+            <!-- 导入iText报表，支持中文 -->
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itext-asian</artifactId>
+                <version>5.2.0</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <!-- java编译插件 -->
@@ -217,5 +257,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
